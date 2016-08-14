@@ -10,5 +10,5 @@ env:
     - VERSION='1.8'
     - VERSION='1.9'
 script:
-  - lein2 with-profile $VERSION test
-  - lein2 with-profile $VERSION cljsbuild test
+  - lein2 with-profile dev,$VERSION test
+  - lein2 with-profile dev,$VERSION cljsbuild test
