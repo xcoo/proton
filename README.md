@@ -2,6 +2,8 @@
 
 Utilities library for Clojure/Script
 
+[![Build Status](https://travis-ci.org/xcoo/proton.svg?branch=master)](https://travis-ci.org/xcoo/proton)
+
 ## Usage
 
 FIXME

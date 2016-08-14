@@ -6,9 +6,12 @@
   :dependencies []
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]
-                                  [org.clojure/clojurescript "1.8.40"]]
+                                  [org.clojure/clojurescript "1.9.198"]]
                    :plugins [[lein-cljsbuild "1.1.3"]
-                             [lein-cloverage "1.0.6"]]}}
+                             [lein-cloverage "1.0.6"]]}
+             :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}
+             :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
+             :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha10"]]}}
   :cljsbuild {:test-commands {"test" ["node" "target/test.js"]}
               :builds [{:source-paths ["test"]
                         :compiler {:target :nodejs
