@@ -26,12 +26,6 @@
           (catch #?(:clj Exception
                     :cljs js/Object) e nil))))))
 
-(defn swap
-  [m k f]
-  (if-not (nil? (get m k))
-    (assoc m k (f (get m k)))
-    m))
-
 (def ^:private alphabet-ascii-codes (concat (range 48 58) (range 66 91) (range 97 123)))
 
 (defn random-string [length]

@@ -25,10 +25,6 @@
     (is (= (core/as-long "") nil))
     (is (= (core/as-long nil) nil)))
 
-  (testing "swap"
-    (is (= (core/swap {:a 1, :b 2} :a inc) {:a 2, :b 2}))
-    (is (= (core/swap {:a 1, :b 2} :c inc) {:a 1, :b 2})))
-
   (testing "random-string"
     (is (= (count (core/random-string 8)) 8))
     (is (not= (core/random-string 40) (core/random-string 40)))))
