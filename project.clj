@@ -8,11 +8,23 @@
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]
                                   [org.clojure/clojurescript "1.9.198" :exclusions [org.clojure/clojure]]]
                    :plugins [[lein-cljsbuild "1.1.3"]
-                             [lein-cloverage "1.0.6" :exclusions [org.clojure/clojure]]]}
+                             [lein-figwheel "0.5.4-7" :exclusions [org.clojure/clojure]]
+                             ;; [lein-cloverage "1.0.6" :exclusions [org.clojure/clojure]]
+                             ]}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
              :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha10"]]}}
   :cljsbuild {:test-commands {"test" ["node" "target/test.js"]}
-              :builds [{:source-paths ["test"]
+              :builds [{:id "dev"
+                        :source-paths ["src/dev/cljs"]
+                        :figwheel true
+                        :compiler {:main proton.dev
+                                   :output-to "target/dev_out/dev.js"
+                                   :output-dir "target/dev_out"
+                                   :target :nodejs
+                                   :optimizations :none
+                                   :source-map true}}
+                       {:id "test"
+                        :source-paths ["test"]
                         :compiler {:target :nodejs
                                    :hashbang false
                                    :output-to "target/test.js"

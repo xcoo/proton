@@ -4,6 +4,12 @@ Utilities library for Clojure/Script
 
 [![Build Status](https://travis-ci.org/xcoo/proton.svg?branch=master)](https://travis-ci.org/xcoo/proton)
 
+## Features
+
+- Well tested on both Clojure and ClojureScript
+- Zero dependencies
+- Fast
+
 ## Usage
 
 FIXME

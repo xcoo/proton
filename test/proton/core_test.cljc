@@ -25,6 +25,11 @@
     (is (= (core/as-long "") nil))
     (is (= (core/as-long nil) nil)))
 
+  (testing "is-uuid?"
+    (is (not (core/is-uuid? 1)))
+    (is (not (core/is-uuid? "abc")))
+    (is (core/is-uuid? #uuid "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")))
+
   (testing "random-string"
     (is (= (count (core/random-string 8)) 8))
     (is (not= (core/random-string 40) (core/random-string 40)))))

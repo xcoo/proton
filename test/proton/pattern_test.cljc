@@ -6,6 +6,7 @@
 (deftest validator
 
   (testing "valid-email?"
+    (is (not (pattern/valid-email? nil)))
     ;; empty
     (is (not (pattern/valid-email? "")))
     ;; only local-part
@@ -33,6 +34,7 @@
     (is (not (pattern/valid-email? "test%example.org@example.com"))))
 
   (testing "valid-password?"
+    (is (not (pattern/valid-password? nil)))
     (is (not (pattern/valid-password? "")))
     (is (pattern/valid-password? "1234abcd"))
     (is (pattern/valid-password? "ABCD!@#$"))
@@ -40,4 +42,9 @@
     (is (pattern/valid-password? "<>\\\"'"))
     (is (not (pattern/valid-password? "password ")))
     (is (not (pattern/valid-password? "password\n")))
-    (is (not (pattern/valid-password? "password\t")))))
+    (is (not (pattern/valid-password? "password\t"))))
+
+  (testing "valid-uuid?"
+    (is (not (pattern/valid-uuid? nil)))
+    (is (not (pattern/valid-uuid? "")))
+    (is (pattern/valid-uuid? "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"))))

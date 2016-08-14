@@ -1,5 +1,7 @@
 (ns proton.core)
 
+;;; convert
+
 (defn as-long
   [s]
   (if-not (nil? s)
@@ -26,10 +28,21 @@
           (catch #?(:clj Exception
                     :cljs js/Object) e nil))))))
 
+;;; type check
+
+(defn is-uuid?
+  [o]
+  #?(:clj (instance? java.util.UUID o)
+     :cljs (uuid? o)))
+
+;;; random string
+
 (def ^:private alphabet-ascii-codes (concat (range 48 58) (range 66 91) (range 97 123)))
 
 (defn random-string [length]
   (apply str (repeatedly length #(char (rand-nth alphabet-ascii-codes)))))
+
+;;; error handling
 
 (defn stack-trace-string
   [e]
