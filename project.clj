@@ -9,7 +9,6 @@
                                   [org.clojure/clojurescript "1.9.198" :exclusions [org.clojure/clojure]]]
                    :plugins [[lein-cljsbuild "1.1.3"]
                              [lein-cloverage "1.0.6" :exclusions [org.clojure/clojure]]]}
-             :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
              :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha10"]]}}
   :cljsbuild {:test-commands {"test" ["node" "target/test.js"]}
