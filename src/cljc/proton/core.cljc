@@ -1,46 +1,41 @@
 (ns proton.core)
 
-#?(:clj (defn str->long [s]
-          (if-not (nil? s)
-            (try
-              (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
-                (Long. n))
-              (catch Exception e
-                nil))
-            nil)))
-
-(defn str->int [s]
+(defn as-long
+  [s]
   (if-not (nil? s)
-    (try
-      (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
-        #?(:clj (Integer. n)
-           :cljs (let [r (js/parseInt n)]
-                   (if (js/isNaN r) nil r))))
-      #?(:clj (catch NumberFormatException e
-                (str->long s)))
-      (catch #?(:clj Exception
-                :cljs js/Object) e
-             nil))
-    nil))
+    (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
+      (if-not (nil? n)
+        (try
+          #?(:clj (Long. n)
+             :cljs (let [num (js/parseInt n)]
+                     (if (js/isNaN num) nil num)))
+          (catch #?(:clj Exception
+                    :cljs js/Object) e nil))))))
 
-(defn transform-key
-  [v k new-k]
-  (if (contains? v k)
-    (-> v
-        (assoc new-k (k v))
-        (dissoc k))
-    v))
+(defn as-int
+  [s]
+  (if-not (nil? s)
+    (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
+      (if-not (nil? n)
+        (try
+          #?(:clj (Integer. n)
+             :cljs (let [r (js/parseInt n)]
+                     (if (js/isNaN r) nil r)))
+          #?(:clj (catch NumberFormatException e
+                    (Long. n)))
+          (catch #?(:clj Exception
+                    :cljs js/Object) e nil))))))
 
-#?(:clj (defmacro swap
-          [m k f]
-          `(if-not (nil? (get ~m ~k))
-             (assoc ~m ~k (~f (get ~m ~k)))
-             ~m)))
+(defn swap
+  [m k f]
+  (if-not (nil? (get m k))
+    (assoc m k (f (get m k)))
+    m))
 
-(def ^:private ascii-codes (concat (range 48 58) (range 66 91) (range 97 123)))
+(def ^:private alphabet-ascii-codes (concat (range 48 58) (range 66 91) (range 97 123)))
 
 (defn random-string [length]
-  (apply str (repeatedly length #(char (rand-nth ascii-codes)))))
+  (apply str (repeatedly length #(char (rand-nth alphabet-ascii-codes)))))
 
 (defn stack-trace-string
   [e]
