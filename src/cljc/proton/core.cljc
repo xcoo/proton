@@ -50,3 +50,51 @@
                (.getStackTrace e))
      :cljs "" ;; TODO
      ))
+
+;;; bytes
+
+(def ^:private ^"[B" hex-chars
+  #?(:clj (byte-array (.getBytes "0123456789abcdef" "UTF-8"))
+     :cljs (let [array (new js/Int8Array 16)]
+             (doseq [i (range 10)]
+               (aset array i (+ 48 i)))
+             (doseq [i (range 6)]
+               (aset array (+ i 10) (+ 97 i)))
+             array)))
+
+(def ^:private hex-val
+  (zipmap "0123456789abcdef" (range 16)))
+
+(defn bytes->hex
+  "Convert Byte Array to Hex String"
+  ^String
+  [^"[B" data]
+  (let [len (alength data)
+        ^"[B" buffer #?(:clj (byte-array (* 2 len))
+                        :cljs (new js/Int8Array (* 2 len)))]
+    (loop [i 0]
+      (when (< i len)
+        (let [b (aget data i)]
+          (aset buffer (* 2 i) (aget hex-chars (bit-shift-right (bit-and b 0xF0) 4)))
+          (aset buffer (inc (* 2 i)) (aget hex-chars (bit-and b 0x0F))))
+        (recur (inc i))))
+    #?(:clj (String. buffer "UTF-8")
+       :cljs (apply (.-fromCharCode js/String) (array-seq buffer)))))
+
+(defn hex->bytes
+  "Convert Hex String to Byte Array"
+  ^"[B"
+  [^String data]
+  (let [data (.toLowerCase data)
+        len #?(:clj (.length data)
+               :cljs (.-length data))
+        result #?(:clj (byte-array (quot len 2))
+                  :cljs (new js/Int8Array (quot len 2)))]
+    (loop [i 0]
+      (if (< i len)
+        (let [a (.charAt data i)
+              b (.charAt data (inc i))
+              v (+ (* (hex-val a) 16) (hex-val b))]
+          (aset result (quot i 2) (unchecked-byte v))
+          (recur (+ i 2)))))
+    result))
