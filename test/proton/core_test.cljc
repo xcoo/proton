@@ -5,7 +5,7 @@
 
 (def example-hash "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30")
 
-(deftest core
+(deftest core-test
 
   (testing "as-int"
     (is (= (core/as-int "0") 0))

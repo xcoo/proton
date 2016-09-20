@@ -3,7 +3,7 @@
                :cljs [cljs.test :refer-macros [deftest is testing]])
             [proton.pattern :as pattern]))
 
-(deftest validator
+(deftest pattern-test
 
   (testing "valid-email?"
     (is (not (pattern/valid-email? nil)))

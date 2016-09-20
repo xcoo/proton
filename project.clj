@@ -8,7 +8,7 @@
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]
                                   [org.clojure/clojurescript "1.9.229" :exclusions [org.clojure/clojure]]]
                    :plugins [[lein-cljsbuild "1.1.4"]
-                             [lein-figwheel "0.5.7" :exclusions [org.clojure/clojure]]
+                             [lein-figwheel "0.5.4-7" :exclusions [org.clojure/clojure]]
                              ;; [lein-cloverage "1.0.6" :exclusions [org.clojure/clojure]]
                              ]}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
