@@ -27,6 +27,33 @@
     (is (= (core/as-long "") nil))
     (is (= (core/as-long nil) nil)))
 
+  (testing "as-float"
+    (is (= (core/as-float "0") #?(:clj (float 0.0)
+                                  :cljs 0.0)))
+    (is (= (core/as-float "0.123") #?(:clj (float 0.123)
+                                      :cljs 0.123)))
+    (is (= (core/as-float "-3.45") #?(:clj (float -3.45)
+                                      :cljs -3.45)))
+    (is (= (core/as-float "+5.67") #?(:clj (float 5.67)
+                                      :cljs 5.67)))
+    (is (= (core/as-float "-1.2e-5") #?(:clj (float -1.2e-5)
+                                      :cljs -1.2e-5)))
+    (is (nil? (core/as-float "1.23.45")))
+    (is (nil? (core/as-float "abc")))
+    (is (nil? (core/as-float "")))
+    (is (nil? (core/as-float nil))))
+
+  (testing "as-double"
+    (is (= (core/as-double "0") 0.0))
+    (is (= (core/as-double "0.123") 0.123))
+    (is (= (core/as-double "-3.45") -3.45))
+    (is (= (core/as-double "+5.67") 5.67))
+    (is (= (core/as-double "-1.2e-5") -1.2e-5))
+    (is (nil? (core/as-double "1.23.45")))
+    (is (nil? (core/as-double "abc")))
+    (is (nil? (core/as-double "")))
+    (is (nil? (core/as-double nil))))
+
   (testing "is-uuid?"
     (is (not (core/is-uuid? 1)))
     (is (not (core/is-uuid? "abc")))

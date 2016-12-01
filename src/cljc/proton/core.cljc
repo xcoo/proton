@@ -28,6 +28,36 @@
           (catch #?(:clj Exception
                     :cljs js/Object) e nil))))))
 
+(defn as-double
+  "Returns a new double number initialized to the value represented by s.
+  as-double returns nil if s is an illegal string or nil."
+  [s]
+  (if-not (nil? s)
+    (if-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" s)]
+      (try
+        #?(:clj (Double/parseDouble n)
+           :cljs (let [r (js/parseFloat n)]
+                   (if-not (js/isNaN r) r)))
+        (catch #?(:clj Exception
+                  :cljs js/Error) _)))))
+
+(defn as-float
+  "Returns a new float number initialized to the value represented by s.
+  as-float returns nil if s is an illegal string or nil. as-float returns a
+  double number if s is out of float range."
+  [s]
+  (if-not (nil? s)
+    (if-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" s)]
+      (try
+        #?(:clj (let [r (Float/parseFloat n)]
+                  (if (Float/isInfinite r)
+                    (Double/parseDouble n)
+                    r))
+           :cljs (let [r (js/parseFloat n)]
+                   (if-not (js/isNaN r) r)))
+        (catch #?(:clj Exception
+                  :cljs js/Error) _)))))
+
 ;;; type check
 
 (defn is-uuid?
