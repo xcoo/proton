@@ -8,7 +8,7 @@
     (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
       (if-not (nil? n)
         (try
-          #?(:clj (Long. n)
+          #?(:clj (Long/parseLong n)
              :cljs (let [num (js/parseInt n)]
                      (if (js/isNaN num) nil num)))
           (catch #?(:clj Exception
@@ -20,11 +20,11 @@
     (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
       (if-not (nil? n)
         (try
-          #?(:clj (Integer. n)
+          #?(:clj (Integer/parseInt n)
              :cljs (let [r (js/parseInt n)]
                      (if (js/isNaN r) nil r)))
           #?(:clj (catch NumberFormatException e
-                    (Long. n)))
+                    (Long/parseLong n)))
           (catch #?(:clj Exception
                     :cljs js/Object) e nil))))))
 
@@ -77,7 +77,7 @@
 (defn stack-trace-string
   [e]
   #?(:clj (map #(str % "\n")
-               (.getStackTrace e))
+               (.getStackTrace ^Throwable e))
      :cljs "" ;; TODO
      ))
 

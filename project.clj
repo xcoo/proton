@@ -6,11 +6,12 @@
   :dependencies []
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]
-                                  [org.clojure/clojurescript "1.9.229" :exclusions [org.clojure/clojure]]]
+                                  [org.clojure/clojurescript "1.9.293" :exclusions [org.clojure/clojure]]]
                    :plugins [[lein-cljsbuild "1.1.4"]
-                             [lein-figwheel "0.5.4-7" :exclusions [org.clojure/clojure]]
+                             [lein-figwheel "0.5.8" :exclusions [org.clojure/clojure]]
                              ;; [lein-cloverage "1.0.6" :exclusions [org.clojure/clojure]]
-                             ]}
+                             ]
+                   :global-vars {*warn-on-reflection* true}}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
              :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha12"]]}}
   :cljsbuild {:test-commands {"test" ["node" "target/test.js"]}
