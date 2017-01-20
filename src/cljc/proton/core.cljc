@@ -1,8 +1,11 @@
-(ns proton.core)
+(ns proton.core
+  "More commonly used utilities")
 
 ;;; convert
 
 (defn as-long
+  "Returns a new long number initialized o the value represented by s.
+  as-int returns nil if s is an illegal string or nil."
   [s]
   (if-not (nil? s)
     (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
@@ -15,6 +18,9 @@
                     :cljs js/Object) e nil))))))
 
 (defn as-int
+  "Returns a new integer number initialized o the value represented by s.
+  as-int returns nil if s is an illegal string or nil. as-log returns a
+  long number if s is out of int range."
   [s]
   (if-not (nil? s)
     (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
@@ -61,6 +67,7 @@
 ;;; type check
 
 (defn is-uuid?
+  "Type check uuid object."
   [o]
   #?(:clj (instance? java.util.UUID o)
      :cljs (uuid? o)))
@@ -69,12 +76,15 @@
 
 (def ^:private alphabet-ascii-codes (concat (range 48 58) (range 66 91) (range 97 123)))
 
-(defn random-string [length]
+(defn random-string
+  "Generate random string from alphabets and numbers (i.e. 0-9, A-Z, and a-z)"
+  [length]
   (apply str (repeatedly length #(char (rand-nth alphabet-ascii-codes)))))
 
 ;;; error handling
 
 (defn stack-trace-string
+  "Returns a falattened string of stacktraces from an exception"
   [e]
   #?(:clj (map #(str % "\n")
                (.getStackTrace ^Throwable e))
@@ -96,7 +106,7 @@
   (zipmap "0123456789abcdef" (range 16)))
 
 (defn bytes->hex
-  "Convert Byte Array to Hex String"
+  "Convert byte array to hex string."
   ^String
   [^"[B" data]
   (let [len (alength data)
@@ -112,7 +122,7 @@
        :cljs (apply (.-fromCharCode js/String) (array-seq buffer)))))
 
 (defn hex->bytes
-  "Convert Hex String to Byte Array"
+  "Convert hex string to bytes array."
   ^"[B"
   [^String data]
   (let [data (.toLowerCase data)
