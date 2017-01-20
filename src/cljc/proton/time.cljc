@@ -1,4 +1,5 @@
 (ns proton.time
+  "(WIP) Dates and times functions to share common code between JVM and JS"
   #?(:clj (:import [java.time.format DateTimeFormatter]
                    [java.time ZoneId])
      :cljs (:require [goog.i18n.DateTimeFormat])))
