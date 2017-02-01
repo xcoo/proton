@@ -1,5 +1,16 @@
 language: clojure
-lein: lein2
+sudo: false
+install:
+  - wget -c https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -O lein-stable
+  - chmod 755 lein-stable
+  - ./lein-stable
+before_script:
+  - ./lein-stable --version
+after_script:
+  - ./dev/scripts/coveralls.sh
+cache:
+  directories:
+    - $HOME/.m2
 jdk:
   - oraclejdk8
   - oraclejdk7
@@ -9,5 +20,5 @@ env:
     - VERSION='1.8'
     - VERSION='1.9'
 script:
-  - lein2 with-profile dev,$VERSION test
-  - lein2 with-profile dev,$VERSION cljsbuild test
+  - ./lein-stable with-profile dev,$VERSION test
+  - ./lein-stable with-profile dev,$VERSION cljsbuild test
