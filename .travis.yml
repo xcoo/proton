@@ -7,14 +7,12 @@ install:
 before_script:
   - ./lein-stable --version
 after_script:
-  - ./dev/scripts/coveralls.sh
+  - ./dev/scripts/coveralls.sh 1.8
 cache:
   directories:
     - $HOME/.m2
 jdk:
   - oraclejdk8
-  - oraclejdk7
-  - openjdk7
 env:
   matrix:
     - VERSION='1.8'

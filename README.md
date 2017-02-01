@@ -1,10 +1,14 @@
 # proton
 
-Utilities library for Clojure/Script
+Utilities library for Clojure/Script.
+
+See [the API reference](https://xcoo.github.io/proton/api/) for usage.
 
 [![Build Status](https://travis-ci.org/xcoo/proton.svg?branch=master)](https://travis-ci.org/xcoo/proton)
 
 [![Clojars Project](https://img.shields.io/clojars/v/proton.svg)](https://clojars.org/proton)
+
+[![Coverage Status](https://coveralls.io/repos/github/xcoo/proton/badge.svg)](https://coveralls.io/github/xcoo/proton)
 
 ## Features
 
@@ -12,9 +16,9 @@ Utilities library for Clojure/Script
 - Zero dependencies
 - Fast
 
-## Usage
+## Requirements
 
-See [the API reference](https://xcoo.github.io/proton/api/).
+Java 8 or above
 
 ## License
 
