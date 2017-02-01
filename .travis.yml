@@ -7,7 +7,7 @@ install:
 before_script:
   - ./lein-stable --version
 after_script:
-  - ./dev/scripts/coveralls.sh 1.8
+  - ./dev/scripts/coveralls.sh $VERSION
 cache:
   directories:
     - $HOME/.m2
