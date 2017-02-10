@@ -1,14 +1,20 @@
 (ns proton.core
-  "More commonly used utilities")
+  "More commonly used utilities"
+  (:require [clojure.string :as string]))
 
 ;;; convert
+
+(defn- sanitize-number-string
+  [s]
+  (-> s
+      (string/replace #"," "")))
 
 (defn as-long
   "Returns a new long number initialized o the value represented by s.
   as-int returns nil if s is an illegal string or nil."
   [s]
   (if-not (nil? s)
-    (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
+    (let [[n _ _] (re-matches #"(|-|\+)(\d+)" (sanitize-number-string s))]
       (if-not (nil? n)
         (try
           #?(:clj (Long/parseLong n)
@@ -23,7 +29,7 @@
   long number if s is out of int range."
   [s]
   (if-not (nil? s)
-    (let [[n _ _] (re-matches #"(|-|\+)(\d+)" s)]
+    (let [[n _ _] (re-matches #"(|-|\+)(\d+)" (sanitize-number-string s))]
       (if-not (nil? n)
         (try
           #?(:clj (Integer/parseInt n)
@@ -39,7 +45,7 @@
   as-double returns nil if s is an illegal string or nil."
   [s]
   (if-not (nil? s)
-    (if-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" s)]
+    (if-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" (sanitize-number-string s))]
       (try
         #?(:clj (Double/parseDouble n)
            :cljs (let [r (js/parseFloat n)]
@@ -53,7 +59,7 @@
   double number if s is out of float range."
   [s]
   (if-not (nil? s)
-    (if-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" s)]
+    (if-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" (sanitize-number-string s))]
       (try
         #?(:clj (let [r (Float/parseFloat n)]
                   (if (Float/isInfinite r)
