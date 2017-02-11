@@ -1,7 +1,7 @@
 (ns proton.time
-  "(WIP) Dates and times functions to share common code between JVM and JS"
+  "(WIP) Dates and times functions"
   #?(:clj (:import [java.time.format DateTimeFormatter]
-                   [java.time ZoneId])
+                   [java.time ZoneId ZoneOffset Instant LocalDateTime])
      :cljs (:require [goog.i18n.DateTimeFormat])))
 
 #?(:cljs (defrecord Formatter [instance zone]))
@@ -15,10 +15,23 @@
       :cljs (Formatter. (goog.i18n.DateTimeFormat. format-string) zone))))
 
 (defn datetime
-  [epoch-sec]
-  ;; TODO support other type arguments
-  #?(:clj (java.time.Instant/ofEpochSecond epoch-sec)
-     :cljs (js/Date. (* epoch-sec 1000))))
+  ([epoch-sec]
+   ;; TODO support other type arguments
+   #?(:clj (Instant/ofEpochSecond epoch-sec)
+      :cljs (js/Date. (* epoch-sec 1000))))
+  ([year month day]
+   #?(:clj (.toInstant (LocalDateTime/of year month day 0 0 0)
+                       ZoneOffset/UTC)
+      :cljs nil))
+  ([year month day hour minute second]
+   #?(:clj (.toInstant (LocalDateTime/of year month day hour minute second)
+                       ZoneOffset/UTC)
+      :cljs nil)))
+
+(defn timestamp-sec
+  [datetime]
+  #?(:clj (quot (.toEpochMilli datetime) 1000)
+     :cljs nil))
 
 (defn format-datetime-string
   [fmt dt]
