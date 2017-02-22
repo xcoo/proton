@@ -15,8 +15,10 @@
       :cljs (Formatter. (goog.i18n.DateTimeFormat. format-string) zone))))
 
 (defn datetime
+  ([]
+   #?(:clj (Instant/now)
+      :cljs nil))
   ([epoch-sec]
-   ;; TODO support other type arguments
    #?(:clj (Instant/ofEpochSecond epoch-sec)
       :cljs (js/Date. (* epoch-sec 1000))))
   ([year month day]
