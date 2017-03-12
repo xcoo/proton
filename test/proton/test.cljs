@@ -1,7 +1,9 @@
 (ns proton.test
   (:require [cljs.test]
             [proton.core-test]
-            [proton.pattern]))
+            [proton.pattern-test]
+            ;; [proton.time-test]
+            [proton.uri-test]))
 
 (enable-console-print!)
 
