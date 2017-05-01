@@ -6,8 +6,9 @@ install:
   - ./lein-stable
 before_script:
   - ./lein-stable --version
-after_script:
-  - ./dev/scripts/coveralls.sh $VERSION
+after_success:
+  - CLOVERAGE_VERSION=1.0.9 ./lein-stable with-profile dev,$VERSION cloverage --codecov
+  - bash <(curl -s https://codecov.io/bash) -f target/coverage/codecov.json
 cache:
   directories:
     - $HOME/.m2
