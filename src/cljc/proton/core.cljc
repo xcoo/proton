@@ -70,6 +70,16 @@
         (catch #?(:clj Exception
                   :cljs js/Error) _)))))
 
+(defn as-boolean
+  "Returns a boolean represented by s. as-boolean returns true if s is \"true\"
+  or \"yes\", ignoring case, false if \"false\" or \"no\", and nil otherwise."
+  [s]
+  (if-not (nil? s)
+    (condp re-matches s
+      #"(?i)(true|yes)" true
+      #"(?i)(false|no)" false
+      nil)))
+
 ;;; type check
 
 (defn is-uuid?

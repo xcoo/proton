@@ -58,6 +58,19 @@
     (is (nil? (core/as-double "")))
     (is (nil? (core/as-double nil))))
 
+  (testing "as-boolean"
+    (is (true? (core/as-boolean "true")))
+    (is (true? (core/as-boolean "True")))
+    (is (true? (core/as-boolean "yes")))
+    (is (true? (core/as-boolean "YES")))
+    (is (false? (core/as-boolean "false")))
+    (is (false? (core/as-boolean "False")))
+    (is (false? (core/as-boolean "no")))
+    (is (false? (core/as-boolean "NO")))
+    (is (nil? (core/as-boolean "0")))
+    (is (nil? (core/as-boolean "")))
+    (is (nil? (core/as-boolean nil))))
+
   (testing "is-uuid?"
     (is (not (core/is-uuid? 1)))
     (is (not (core/is-uuid? "abc")))
