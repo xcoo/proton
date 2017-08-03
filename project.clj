@@ -33,4 +33,5 @@
                                    :pretty-print true}}]}
   :codeina {:sources ["src/cljc" "src/clj" "src/cljs"]
             :target "docs/api"
-            :reader :clojure})
+            :reader :clojure}
+  :signing {:gpg-key "developer@xcoo.jp"})
