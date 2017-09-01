@@ -58,6 +58,26 @@
     (is (nil? (core/as-double "")))
     (is (nil? (core/as-double nil))))
 
+  (testing "as-rational"
+    (is (= (core/as-rational "1") 1))
+    (is (= (core/as-rational "-1") -1))
+    (is (= (core/as-rational "1/2") #?(:clj 1/2
+                                       :cljs 0.5)))
+    (is (= (core/as-rational "-1/2") #?(:clj -1/2
+                                        :cljs -0.5)))
+    (is (= (core/as-rational "2/1") 2))
+    (is (zero? (core/as-rational "0")))
+    (is (zero? (core/as-rational "0/2")))
+    (is (= (core/as-rational "1,000/2,000") #?(:clj 1/2
+                                               :cljs 0.5)))
+    (is (nil? (core/as-rational "2/")))
+    (is (nil? (core/as-rational "/2")))
+    (is (nil? (core/as-rational "abc")))
+    (is (nil? (core/as-rational "")))
+    (is (nil? (core/as-rational nil)))
+    (is (nil? (core/as-rational "2/0")))
+    (is (nil? (core/as-rational "-2/0"))))
+
   (testing "as-boolean"
     (is (true? (core/as-boolean "true")))
     (is (true? (core/as-boolean "True")))
