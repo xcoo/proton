@@ -1,4 +1,4 @@
-(defproject proton "0.1.3"
+(defproject proton "0.1.4-SNAPSHOT"
   :description "Utilities library for Clojure/Script"
   :url "https://github.com/xcoo/proton"
   :license {:name "Apache License, Version 2.0"
