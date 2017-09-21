@@ -70,6 +70,23 @@
         (catch #?(:clj Exception
                   :cljs js/Error) _)))))
 
+(defn as-rational
+  "Returns a new rational number initialized to the value represented by s such
+  as \"1\", \"1/2\", and \"-1/2\". as-rational returns nil if s is an illegal
+  string, nil, or division by zero."
+  [s]
+  (if-not (nil? s)
+    (if-let [[_ n _ d] (re-matches #"([\-\+]?\d+)(/(\d+))?" (sanitize-number-string s))]
+      (try
+        (let [numerator (as-long n)
+              denominator (as-long d)]
+          (if denominator
+            (if (pos? denominator)
+              (/ numerator denominator))
+            numerator))
+        (catch #?(:clj Exception
+                  :cljs js/Error) _)))))
+
 (defn as-boolean
   "Returns a boolean represented by s. as-boolean returns true if s is \"true\"
   or \"yes\", ignoring case, false if \"false\" or \"no\", and nil otherwise."
