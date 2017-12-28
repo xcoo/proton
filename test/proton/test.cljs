@@ -2,6 +2,7 @@
   (:require [cljs.test]
             [proton.core-test]
             [proton.pattern-test]
+            [proton.string-test]
             ;; [proton.time-test]
             [proton.uri-test]))
 
