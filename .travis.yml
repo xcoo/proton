@@ -13,7 +13,9 @@ cache:
   directories:
     - $HOME/.m2
 jdk:
+  - oraclejdk9
   - oraclejdk8
+  - openjdk8
 env:
   matrix:
     - VERSION='1.8'
