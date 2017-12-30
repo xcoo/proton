@@ -31,7 +31,11 @@
                                    :output-to "target/test.js"
                                    :optimizations :simple
                                    :pretty-print true}}]}
-  :jvm-opts ["--add-modules" "java.xml.bind"]
+  :jvm-opts ~(let [version (System/getProperty "java.version") ; Fix to run ClojureScript on JDK9
+                   [major _ _] (clojure.string/split version #"\.")]
+               (if (>= (Integer. major) 9)
+                 ["--add-modules" "java.xml.bind"]
+                 []))
   :codeina {:sources ["src/cljc" "src/clj" "src/cljs"]
             :target "docs/api"
             :reader :clojure}
