@@ -13,7 +13,7 @@
                              [funcool/codeina "0.5.0" :exclusions [org.clojure/clojure]]]
                    :global-vars {*warn-on-reflection* true}}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
-             :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha14"]]}}
+             :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}}
   :cljsbuild {:test-commands {"test" ["node" "target/test.js"]}
               :builds [{:id "dev"
                         :source-paths ["src/dev/cljs"]
