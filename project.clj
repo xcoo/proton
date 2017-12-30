@@ -31,6 +31,7 @@
                                    :output-to "target/test.js"
                                    :optimizations :simple
                                    :pretty-print true}}]}
+  :jvm-opts ["--add-modules" "java.xml.bind"]
   :codeina {:sources ["src/cljc" "src/clj" "src/cljs"]
             :target "docs/api"
             :reader :clojure}
