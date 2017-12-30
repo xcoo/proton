@@ -6,10 +6,10 @@
   :dependencies []
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.8.0"]
-                                  [org.clojure/clojurescript "1.9.854" :exclusions [org.clojure/clojure]]]
+                                  [org.clojure/clojurescript "1.9.946" :exclusions [org.clojure/clojure]]]
                    :plugins [[lein-cljsbuild "1.1.7"]
-                             [lein-figwheel "0.5.12" :exclusions [org.clojure/clojure]]
-                             [lein-cloverage "1.0.9" :exclusions [org.clojure/clojure]]
+                             [lein-figwheel "0.5.14" :exclusions [org.clojure/clojure]]
+                             [lein-cloverage "1.0.10" :exclusions [org.clojure/clojure]]
                              [funcool/codeina "0.5.0" :exclusions [org.clojure/clojure]]]
                    :global-vars {*warn-on-reflection* true}}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
