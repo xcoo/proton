@@ -171,3 +171,16 @@
           (aset result (quot i 2) (unchecked-byte v))
           (recur (+ i 2)))))
     result))
+
+;;; math
+
+(defn clip
+  "Limits x in the interval of [xmin xmax]. A value smaller than xmin becomes
+  xmin, and a value larger than xmax becomes xmax. If nil is supplied to
+  xmin/xmax, its side will not be limited."
+  [x xmin xmax]
+  {:pre [(some? x)
+         (or (some nil? [xmin xmax]) (<= xmin xmax))]}
+  (cond-> x
+    xmin (max xmin)
+    xmax (min xmax)))

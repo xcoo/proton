@@ -1,6 +1,6 @@
 (ns proton.core-test
-  (:require #?(:clj [clojure.test :refer [deftest is testing]]
-               :cljs [cljs.test :refer-macros [deftest is testing]])
+  (:require #?(:clj [clojure.test :refer [deftest is are testing]]
+               :cljs [cljs.test :refer-macros [deftest is are testing]])
             [proton.core :as core]))
 
 (def example-hash "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30")
@@ -104,4 +104,17 @@
     (is (= example-hash
            (-> example-hash
                core/hex->bytes
-               core/bytes->hex)))))
+               core/bytes->hex))))
+
+  (testing "clip"
+    (are [x xmin xmax e] (= (core/clip x xmin xmax) e)
+      5 3   7   5
+      5 6   7   6
+      5 3   4   4
+      5 3   3   3
+      5 nil 7   5
+      5 3   nil 5
+      5 nil nil 5)
+    (are [x xmin xmax] (thrown? #?(:clj Throwable, :cljs js/Error) (core/clip x xmin xmax))
+      5 3 1
+      nil 3 7)))
