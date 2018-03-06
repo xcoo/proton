@@ -36,7 +36,7 @@
              :cljs (let [r (js/parseInt n)]
                      (if (js/isNaN r) nil r)))
           #?(:clj (catch NumberFormatException e
-                    (Long/parseLong n)))
+                    (as-long n)))
           (catch #?(:clj Exception
                     :cljs js/Object) e nil))))))
 

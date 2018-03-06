@@ -14,6 +14,7 @@
     (is (= (core/as-int "12,345,678") 12345678))
     (is (= (core/as-int "-45") -45))
     (is (= (core/as-int "+67") 67))
+    (is (= (core/as-int "292999988888999999888888") nil))
     (is (= (core/as-int "abc") nil))
     (is (= (core/as-int "") nil))
     (is (= (core/as-int nil) nil)))
