@@ -1,50 +1,45 @@
 (ns proton.pattern-test
-  (:require #?(:clj [clojure.test :refer [deftest is testing]]
-               :cljs [cljs.test :refer-macros [deftest is testing]])
+  (:require #?(:clj [clojure.test :refer [deftest is are testing]]
+               :cljs [cljs.test :refer-macros [deftest is are testing]])
             [proton.pattern :as pattern]))
 
-(deftest pattern-test
+(deftest valid-email?-test
+  (testing "valid"
+    (are [s] (pattern/valid-email? s)
+      "test@example.com"
+      "a@abc.jp" ; short
+      "test+!&-_=?@example.com" ; including symbol chars
+      "test..@example.com" ; not valid (violation rfc), but should allow for japanese moby
+      ))
+  (testing "invalid"
+    (are [s] (not (pattern/valid-email? s))
+      nil
+      "" ; empty
+      "example" ; only local-part
+      "example.com" ; only domain-part
+      "test_example.com" ; @ not found
+      "test@example.com " ; extra spaced mail-address
+      "<test@example.com>" ; valid value of "From:" header, but not valid mail-address
+      "\"test\"@example.com" ; valid, but it disturb consistency check, so may not allow this
+      "test%example.com" ; valid, but should not allow this! These are "source routing".
+      "test%example.org@example.com")))
 
-  (testing "valid-email?"
-    (is (not (pattern/valid-email? nil)))
-    ;; empty
-    (is (not (pattern/valid-email? "")))
-    ;; only local-part
-    (is (not (pattern/valid-email? "example")))
-    ;; only domain-part
-    (is (not (pattern/valid-email? "example.com")))
-    ;; valid short mail-address
-    (is (pattern/valid-email? "a@abc.jp"))
-    ;; valid mail-address
-    (is (pattern/valid-email? "test@example.com"))
-    ;; @ not found
-    (is (not (pattern/valid-email? "test_example.com")))
-    ;; extra spaced mail-address
-    (is (not (pattern/valid-email? "test@example.com ")))
-    ;; valid mail-address include symbol chars
-    (is (pattern/valid-email? "test+!&-_=?@example.com"))
-    ;; It's not valid(violation rfc), but it should allow for japanese moby
-    (is (pattern/valid-email? "test..@example.com"))
-    ;; It's valid value of "From:" header, but not valid mail-address
-    (is (not (pattern/valid-email? "<test@example.com>")))
-    ;; It's valid, but it disturb consistency check, so may not allow this
-    (is (not (pattern/valid-email? "\"test\"@example.com")))
-    ;; It's valid, but should not allow this! These are "source routing".
-    (is (not (pattern/valid-email? "test%example.com")))
-    (is (not (pattern/valid-email? "test%example.org@example.com"))))
+(deftest valid-password?-test
+  (testing "valid"
+    (are [s] (pattern/valid-password? s)
+      "1234abcd"
+      "ABCD!@#$"
+      "%^&*()_+"
+      "<>\\\"'"))
+  (testing "invalid"
+    (are [s] (not (pattern/valid-password? s))
+      nil
+      ""
+      "password "
+      "password\n"
+      "password\t")))
 
-  (testing "valid-password?"
-    (is (not (pattern/valid-password? nil)))
-    (is (not (pattern/valid-password? "")))
-    (is (pattern/valid-password? "1234abcd"))
-    (is (pattern/valid-password? "ABCD!@#$"))
-    (is (pattern/valid-password? "%^&*()_+"))
-    (is (pattern/valid-password? "<>\\\"'"))
-    (is (not (pattern/valid-password? "password ")))
-    (is (not (pattern/valid-password? "password\n")))
-    (is (not (pattern/valid-password? "password\t"))))
-
-  (testing "valid-uuid?"
-    (is (not (pattern/valid-uuid? nil)))
-    (is (not (pattern/valid-uuid? "")))
-    (is (pattern/valid-uuid? "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"))))
+(deftest valid-uuid?-test
+  (is (not (pattern/valid-uuid? nil)))
+  (is (not (pattern/valid-uuid? "")))
+  (is (pattern/valid-uuid? "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")))
