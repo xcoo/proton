@@ -1,6 +1,6 @@
 (ns proton.core-test
-  (:require #?(:clj [clojure.test :refer [deftest is are]]
-               :cljs [cljs.test :refer-macros [deftest is are]])
+  (:require #?(:clj [clojure.test :refer [deftest is are testing]]
+               :cljs [cljs.test :refer-macros [deftest is are testing]])
             [proton.core :as core]))
 
 (deftest as-long-test
@@ -14,7 +14,10 @@
   (are [s] (nil? (core/as-long s))
     "abc"
     ""
-    nil))
+    nil)
+  (testing "different between clj and cljs"
+    (is (= (core/as-long "292999988888999999888888")
+           #?(:clj nil :cljs 292999988888999999888888)))))
 
 (deftest as-int-test
   (are [s e] (= (core/as-int s) e)
@@ -25,10 +28,12 @@
     "-45"        -45
     "+67"        67)
   (are [s] (nil? (core/as-int s))
-    "292999988888999999888888"
     "abc"
     ""
-    nil))
+    nil)
+  (testing "different between clj and cljs"
+    (is (= (core/as-int "292999988888999999888888")
+           #?(:clj nil :cljs 292999988888999999888888)))))
 
 (deftest as-double-test
   (are [s e] (= (core/as-double s) e)
