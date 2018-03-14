@@ -10,7 +10,7 @@
       (string/replace #"," "")))
 
 (defn as-long
-  "Returns a new long number initialized o the value represented by s.
+  "Returns a new long number initialized to the value represented by s.
   as-int returns nil if s is an illegal string or nil."
   [s]
   (if-not (nil? s)
@@ -24,8 +24,8 @@
                     :cljs js/Object) e nil))))))
 
 (defn as-int
-  "Returns a new integer number initialized o the value represented by s.
-  as-int returns nil if s is an illegal string or nil. as-log returns a
+  "Returns a new integer number initialized to the value represented by s.
+  as-int returns nil if s is an illegal string or nil. as-long returns a
   long number if s is out of int range."
   [s]
   (if-not (nil? s)
