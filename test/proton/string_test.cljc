@@ -24,3 +24,27 @@
       ["Simple made easy" 2]
       ["Simple made easy" 10 :front]
       ["Simple made easy" 3 :left "......"])))
+
+(deftest split-at-test
+  (testing "single splitting position"
+    (are [s x e] (= (string/split-at s x) e)
+      "clojure" 3  ["clo" "jure"]
+      "clojure" 0  ["" "clojure"]
+      "clojure" 7  ["clojure" ""]
+      "clojure" -1 ["" "clojure"]
+      "clojure" 8  ["clojure" ""]
+      ""        3  ["" ""]))
+  (testing "multiple splitting positions"
+    (are [s x e] (= (string/split-at s x) e)
+      "clojure" [3 5]  ["clo" "ju" "re"]
+      "clojure" [0 3]  ["" "clo" "jure"]
+      "clojure" [5 7]  ["cloju" "re" ""]
+      "clojure" [-1 3] ["" "clo" "jure"]
+      "clojure" [5 8]  ["cloju" "re" ""]
+      "clojure" []     ["clojure"]
+      ""        [3 5]  ["" "" ""]))
+  (testing "error"
+    (are [s x] (thrown? #?(:clj Throwable, :cljs js/Error) (string/split-at s x))
+      "clojure" "3"
+      "clojure" nil
+      nil       3)))
