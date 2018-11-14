@@ -1,6 +1,6 @@
 # proton
 
-Utilities library for Clojure/Script.
+Utilities for Clojure/Script.
 
 See [the API reference](https://xcoo.github.io/proton/api/) for usage.
 
