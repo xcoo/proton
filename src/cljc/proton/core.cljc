@@ -78,8 +78,8 @@
   (if-not (nil? s)
     (if-let [[_ n _ d] (re-matches #"([\-\+]?\d+)(/(\d+))?" (sanitize-number-string s))]
       (try
-        (let [numerator (as-long n)
-              denominator (as-long d)]
+        (let [numerator ^long (as-long n)
+              denominator ^long (as-long d)]
           (if denominator
             (if (pos? denominator)
               (/ numerator denominator))
