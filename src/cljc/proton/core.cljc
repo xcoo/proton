@@ -110,7 +110,7 @@
 (def ^:private alphabet-ascii-codes (concat (range 48 58) (range 65 91) (range 97 123)))
 
 (defn ^:deprecated random-string
-  "DEPRECATED: Use 'proton.string/rand-string' instead.
+  "DEPRECATED: Use 'proton.string/rand-str' instead.
   Generate random string from alphabets and numbers (i.e. 0-9, A-Z, and a-z)"
   [length]
   (apply str (repeatedly length #(char (rand-nth alphabet-ascii-codes)))))

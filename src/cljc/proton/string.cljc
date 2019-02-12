@@ -47,7 +47,7 @@
    :upper-case-letter (range 65 91)
    :lower-case-letter (range 97 123)})
 
-(defn rand-string
+(defn rand-str
   "Generates a random string of the certain length. The generated string
   consists of numbers and letters (i.e. 0-9, A-Z, and a-z). You can change the
   characters by supplying character types from :number, :letter,
