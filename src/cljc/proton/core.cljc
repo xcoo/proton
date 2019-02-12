@@ -107,7 +107,7 @@
 
 ;;; random string
 
-(def ^:private alphabet-ascii-codes (concat (range 48 58) (range 66 91) (range 97 123)))
+(def ^:private alphabet-ascii-codes (concat (range 48 58) (range 65 91) (range 97 123)))
 
 (defn random-string
   "Generate random string from alphabets and numbers (i.e. 0-9, A-Z, and a-z)"
