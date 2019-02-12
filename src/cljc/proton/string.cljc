@@ -40,3 +40,19 @@
       :else (throw #?(:clj (IllegalArgumentException.
                             "Splitting position should be an integer or list.")
                       :cljs (js/Error. "Splitting position should be an integer or list."))))))
+
+(def ^:private ascii-code-map
+  {:number (range 48 58)
+   :letter (concat (range 65 91) (range 97 123))
+   :upper-case-letter (range 65 91)
+   :lower-case-letter (range 97 123)})
+
+(defn rand-string
+  "Generates a random string of the certain length. The generated string
+  consists of numbers and letters (i.e. 0-9, A-Z, and a-z). You can change the
+  characters by supplying character types from :number, :letter,
+  :upper-case-letter, or :lower-case-letter."
+  [len & char-types]
+  (let [char-types (or char-types [:number :letter])
+        ascii-codes (distinct (mapcat ascii-code-map char-types))]
+    (apply str (repeatedly len #(char (rand-nth ascii-codes))))))
