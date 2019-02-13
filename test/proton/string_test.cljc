@@ -48,3 +48,14 @@
       "clojure" "3"
       "clojure" nil
       nil       3)))
+
+(deftest rand-str-test
+  (let [s (string/rand-str 8)]
+    (is (string? s))
+    (is (= (count s) 8))
+    (is (re-matches #"[0-9A-Za-z]+" s)))
+  (is (re-matches #"[0-9]+" (string/rand-str 8 :number)))
+  (is (re-matches #"[0-9a-z]+" (string/rand-str 8 :number :lower-case-letter)))
+  (is (not= (string/rand-str 40) (string/rand-str 40)))
+  (is (= (string/rand-str 0) ""))
+  (is (= (string/rand-str -1) "")))
