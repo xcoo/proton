@@ -1,15 +1,15 @@
 language: clojure
-lein: 2.8.1
+lein: 2.9.1
 cache:
   directories:
     - $HOME/.m2
 jdk:
-  - oraclejdk8
-  - oraclejdk9
   - openjdk8
   - openjdk9
   - openjdk10
   - openjdk11
+  - openjdk12
+  - openjdk-ea
 before_script:
   - lein version
 env:
