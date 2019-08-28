@@ -118,7 +118,7 @@
 ;;; error handling
 
 (defn stack-trace-string
-  "Returns a falattened string of stacktraces from an exception"
+  "Returns a flattened string of stacktraces from an exception"
   [e]
   #?(:clj (map #(str % "\n")
                (.getStackTrace ^Throwable e))
