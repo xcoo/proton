@@ -5,7 +5,7 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
   :dependencies []
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.9.0"]
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.1"]
                                   [org.clojure/clojurescript "1.10.520" :exclusions [org.clojure/clojure]]]
                    :plugins [[lein-cljsbuild "1.1.7"]
                              [lein-figwheel "0.5.18" :exclusions [org.clojure/clojure]]
@@ -14,7 +14,7 @@
                    :global-vars {*warn-on-reflection* true}}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
              :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
-             :1.10 {:dependencies [[org.clojure/clojure "1.10.0"]]}}
+             :1.10 {:dependencies [[org.clojure/clojure "1.10.1"]]}}
   :cljsbuild {:test-commands {"test" ["node" "target/test.js"]}
               :builds [{:id "dev"
                         :source-paths ["src/dev/cljs"]
