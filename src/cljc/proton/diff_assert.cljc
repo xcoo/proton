@@ -1,6 +1,6 @@
 (ns proton.diff-assert
   (:require #?(:clj [clojure.test :refer [assert-expr do-report]]
-               :cljs [cljs.test :refer-macros [assert-expr do-report]])
+               :cljs [cljs.test :refer-macros [assert-expr] :refer [do-report]])
             [proton.diff :as diff]))
 
 (defmethod assert-expr 'diff-u= [msg form]
