@@ -1,4 +1,5 @@
 (ns proton.diff
+  "Helpful diff functions like `diff -u`"
   (:require
    [clojure.data :refer [diff]]
    [clojure.pprint :refer [pprint]]
