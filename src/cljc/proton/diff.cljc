@@ -2,8 +2,9 @@
   "Helpful diff functions like `diff -u`"
   (:require
    [clojure.data :refer [diff]]
-   [clojure.pprint :refer [pprint]]
-   [clojure.string :as string]))
+   [clojure.string :as string]
+   #?(:clj [clojure.pprint :refer [pprint]]
+      :cljs [cljs.pprint :refer [pprint]])))
 
 (defn- blank-padding [origin size]
   (into origin (take size (repeat ""))))
