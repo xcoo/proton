@@ -10,7 +10,10 @@
     (assoc-in m ks v)))
 
 (defn assoc-in-after
-  "Inserts `v` into `ks` after `before-ks` in `omap`"
+  "Inserts `v` into `ks` after `before-ks` in `omap`.
+`omap` is a nested associative structure, especially a map that can keep the order: `array-map`, [ordered-map](https://github.com/clj-commons/ordered), etc.
+`array-map` cannot keep the order when there are many elements, so in that case, please consider using `ordered-map` etc.
+`v` is new value, `ks` and `before-ks` are sequences of keys."
   [omap ks v before-ks]
   (let [empty-omap (empty omap)]
     (cond
