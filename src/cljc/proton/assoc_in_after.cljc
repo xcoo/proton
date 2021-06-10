@@ -15,7 +15,7 @@
 `array-map` cannot keep the order when there are many elements, so in that case, please consider using `ordered-map` etc.
 `v` is new value, `ks` and `before-ks` are sequences of keys."
   [omap ks v before-ks]
-  (let [empty-omap (empty omap)]
+  (let [empty-omap (with-meta (empty omap) nil)]
     (cond
       (empty? ks) v
       (empty? before-ks) (assoc-in* omap ks v)
