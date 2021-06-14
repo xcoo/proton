@@ -5,7 +5,8 @@
             [proton.pattern-test]
             [proton.string-test]
             ;; [proton.time-test]
-            [proton.uri-test]))
+            [proton.uri-test]
+            [proton.diff-test]))
 
 (enable-console-print!)
 
