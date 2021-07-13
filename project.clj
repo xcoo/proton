@@ -8,9 +8,9 @@
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.3"]
                                   [org.clojure/clojurescript "1.10.844" :exclusions [org.clojure/clojure]]]
                    :plugins [[lein-cljsbuild "1.1.8"]
+                             [lein-codox "0.10.7"]
                              [lein-figwheel "0.5.20" :exclusions [org.clojure/clojure]]
-                             [lein-cloverage "1.2.2" :exclusions [org.clojure/clojure]]
-                             [funcool/codeina "0.5.0" :exclusions [org.clojure/clojure]]]
+                             [lein-cloverage "1.2.2" :exclusions [org.clojure/clojure]]]
                    :global-vars {*warn-on-reflection* true}}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
              :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}
@@ -33,7 +33,6 @@
                                    :output-to "target/test.js"
                                    :optimizations :simple
                                    :pretty-print true}}]}
-  :codeina {:sources ["src/cljc" "src/clj" "src/cljs"]
-            :target "docs/api"
-            :reader :clojure}
+  :codox {:output-path "docs/api"
+          :source-uri "https://github.com/xcoo/proton/blob/{version}/{filepath}#L{line}"}
   :signing {:gpg-key "developer@xcoo.jp"})
