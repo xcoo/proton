@@ -125,3 +125,9 @@
   (are [x xmin xmax] (thrown? #?(:clj Throwable :cljs js/Error) (core/clip x xmin xmax))
     5   3 1
     nil 3 7))
+
+(deftest deep-merge-test
+  (is (= (core/deep-merge {:foo {:bar 1}} {:foo {:baz 2}})
+         {:foo {:bar 1 :baz 2}}))
+  (is (= (core/deep-merge {:foo {:bar 1}} {:baz 2})
+         {:foo {:bar 1} :baz 2})))
