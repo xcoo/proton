@@ -4,8 +4,8 @@
             [proton.function :as function]))
 
 (deftest comp->-test
-  (is (= ((comp - /) 8 3) -8/3))
-  (is (= ((function/comp-> / -) 8 3) -8/3)))
+  (is (= ((comp (partial * 2) inc) 8) 18))
+  (is (= ((function/comp-> inc (partial * 2)) 8) 18)))
 
 (deftest step->-test
   (is (= (function/step-> 8 inc) 9))
