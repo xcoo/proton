@@ -8,6 +8,7 @@
   (is (= ((function/lcomp inc (partial * 2)) 8) 18)))
 
 (deftest lcomp-apply-test
-  (is (= (function/lcomp-apply 8 inc) 9))
-  (is (= (function/lcomp-apply 8 inc (partial * 2)) 18))
-  (is (= (function/lcomp-apply 8 [inc (partial * 2)]) 18)))
+  (is (= (function/lcomp-apply 8 [inc]) 9))
+  (is (= (function/lcomp-apply 8 [inc (partial * 2)]) 18))
+  (is (= (function/lcomp-apply 8 [(fn [n opts] (if (:twice opts) (* n 2) n))] {:twice true}) 16))
+  (is (= (function/lcomp-apply 8 [(fn [n opts] (if (:twice opts) (* n 2) n))] {}) 8)))

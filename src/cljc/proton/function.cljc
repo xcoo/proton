@@ -5,14 +5,14 @@
   [& fs]
   (apply comp (reverse fs)))
 
-;; TODO can pass "options" (I had better use "reduce"?)
+(defn- apply-fs [init-val fs run-fn]
+  (if (seq fs)
+    (reduce run-fn init-val fs)
+    init-val))
+
 (defn lcomp-apply
   "Apply the composition of fs from left to right"
-  ([init-val f & fs]
-   (lcomp-apply init-val (cons f fs)))
   ([init-val fs]
-   (if (fn? fs)
-     (fs init-val)
-     (if (seq fs)
-       ((apply lcomp fs) init-val)
-       init-val))))
+   (apply-fs init-val fs #(%2 %1)))
+  ([init-val fs opts]
+   (apply-fs init-val fs #(%2 %1 opts))))
