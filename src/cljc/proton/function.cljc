@@ -10,6 +10,13 @@
     (reduce run-fn init-val fs)
     init-val))
 
+(defn comp-apply
+  "Apply the composition of fs"
+  ([init-val fs]
+   (apply-fs init-val (reverse fs) #(%2 %1)))
+  ([init-val fs opts]
+   (apply-fs init-val (reverse fs) #(%2 %1 opts))))
+
 (defn lcomp-apply
   "Apply the composition of fs from left to right"
   ([init-val fs]
