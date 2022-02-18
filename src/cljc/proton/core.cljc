@@ -9,13 +9,25 @@
   (-> s
       (string/replace #"," "")))
 
+(defn- string?! [s]
+  (cond
+    (nil? s)
+    false
+
+    (string? s)
+    true
+
+    :else
+    (throw (#?(:clj (IllegalArgumentException. "An argument should be string")
+               :cljs (js/Error. "An argument should be string"))))))
+
 (defn as-long
   "Returns a new long number initialized to the value represented by s.
   as-int returns nil if s is an illegal string or nil."
   [s]
-  (if-not (nil? s)
+  (when (string?! s)
     (let [[n _ _] (re-matches #"(|-|\+)(\d+)" (sanitize-number-string s))]
-      (if-not (nil? n)
+      (when-not (nil? n)
         (try
           #?(:clj (Long/parseLong n)
              :cljs (let [num (js/parseInt n)]
@@ -28,9 +40,9 @@
   as-int returns nil if s is an illegal string or nil. as-long returns a
   long number if s is out of int range."
   [s]
-  (if-not (nil? s)
+  (when (string?! s)
     (let [[n _ _] (re-matches #"(|-|\+)(\d+)" (sanitize-number-string s))]
-      (if-not (nil? n)
+      (when-not (nil? n)
         (try
           #?(:clj (Integer/parseInt n)
              :cljs (let [r (js/parseInt n)]
@@ -44,12 +56,12 @@
   "Returns a new double number initialized to the value represented by s.
   as-double returns nil if s is an illegal string or nil."
   [s]
-  (if-not (nil? s)
-    (if-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" (sanitize-number-string s))]
+  (when (string?! s)
+    (when-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" (sanitize-number-string s))]
       (try
         #?(:clj (Double/parseDouble n)
            :cljs (let [r (js/parseFloat n)]
-                   (if-not (js/isNaN r) r)))
+                   (when-not (js/isNaN r) r)))
         (catch #?(:clj Exception
                   :cljs js/Error) _)))))
 
@@ -58,15 +70,15 @@
   as-float returns nil if s is an illegal string or nil. as-float returns a
   double number if s is out of float range."
   [s]
-  (if-not (nil? s)
-    (if-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" (sanitize-number-string s))]
+  (when (string?! s)
+    (when-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" (sanitize-number-string s))]
       (try
         #?(:clj (let [r (Float/parseFloat n)]
                   (if (Float/isInfinite r)
                     (Double/parseDouble n)
                     r))
            :cljs (let [r (js/parseFloat n)]
-                   (if-not (js/isNaN r) r)))
+                   (if (js/isNaN r) nil r)))
         (catch #?(:clj Exception
                   :cljs js/Error) _)))))
 
@@ -75,13 +87,13 @@
   as \"1\", \"1/2\", and \"-1/2\". as-rational returns nil if s is an illegal
   string, nil, or division by zero."
   [s]
-  (if-not (nil? s)
-    (if-let [[_ n _ d] (re-matches #"([\-\+]?\d+)(/(\d+))?" (sanitize-number-string s))]
+  (when (string?! s)
+    (when-let [[_ n _ d] (re-matches #"([\-\+]?\d+)(/(\d+))?" (sanitize-number-string s))]
       (try
         (let [numerator ^long (as-long n)
               denominator ^long (as-long d)]
           (if denominator
-            (if (pos? denominator)
+            (when (pos? denominator)
               (/ numerator denominator))
             numerator))
         (catch #?(:clj Exception
@@ -91,7 +103,7 @@
   "Returns a boolean represented by s. as-boolean returns true if s is \"true\"
   or \"yes\", ignoring case, false if \"false\" or \"no\", and nil otherwise."
   [s]
-  (if-not (nil? s)
+  (when (string?! s)
     (condp re-matches s
       #"(?i)(true|yes)" true
       #"(?i)(false|no)" false
@@ -165,7 +177,7 @@
         result #?(:clj (byte-array (quot len 2))
                   :cljs (new js/Int8Array (quot len 2)))]
     (loop [i 0]
-      (if (< i len)
+      (when (< i len)
         (let [a (.charAt data i)
               b (.charAt data (inc i))
               v (+ (* (hex-val a) 16) (hex-val b))]
