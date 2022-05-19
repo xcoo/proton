@@ -1,0 +1,54 @@
+name: test
+
+on: [ push ]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - Ubuntu-18.04
+          - Ubuntu-20.04
+        openjdk:
+          - 8
+          - 11
+        clojure:
+          - 1.8
+          - 1.9
+          - 1.10
+          - 1.11
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Openjdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: corretto
+          java-version: ${{ matrix.openjdk }}
+
+      - name: Show java version
+        run: |
+          java -Xmx32m -version
+
+      - name: Show javac version
+        run: |
+          javac -J-Xmx32m -version
+
+      - name: Install leiningen
+        uses: DeLaGuardo/setup-clojure@5.0
+        with:
+          lein: 2.9.1
+
+      - name: Show leiningen version
+        run: |
+          lein version
+
+      - name: Run test
+        run: |
+          lein with-profile dev,${{ matrix.clojure }} test
+
+      - name: Run cljs test
+        run: |
+          lein with-profile dev,${{ matrix.clojure }} cljsbuild test

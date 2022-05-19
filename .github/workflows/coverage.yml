@@ -1,0 +1,41 @@
+name: coverage
+
+on: [ pull_request ]
+
+jobs:
+  coverage:
+    runs-on: [ Ubuntu-20.04 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Openjdk
+        uses: actions/setup-java@v3
+        with:
+          distribution: corretto
+          java-version: 11
+
+      - name: Show java version
+        run: |
+          java -Xmx32m -version
+
+      - name: Show javac version
+        run: |
+          javac -J-Xmx32m -version
+
+      - name: Install leiningen
+        uses: DeLaGuardo/setup-clojure@5.0
+        with:
+          lein: 2.9.1
+
+      - name: Show leiningen version
+        run: |
+          lein version
+
+      - name: Run cloverage
+        run: |
+          lein cloverage --codecov
+
+      - name: Push cloverage result
+        run: |
+          bash <(curl -s https://codecov.io./bash) -f target/coverage/codecov.json
