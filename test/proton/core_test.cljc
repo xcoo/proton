@@ -15,6 +15,11 @@
     "abc"
     ""
     nil)
+  (are [s] (thrown? #?(:clj AssertionError :cljs js/Error) (core/as-long s))
+    123
+    9.87
+    {:foo "bar"}
+    [1 2 3])
   (testing "different between clj and cljs"
     (is (= (core/as-long "292999988888999999888888")
            #?(:clj nil :cljs 292999988888999999888888)))))
@@ -31,6 +36,11 @@
     "abc"
     ""
     nil)
+  (are [s] (thrown? #?(:clj AssertionError :cljs js/Error) (core/as-int s))
+    123
+    9.87
+    {:foo "bar"}
+    [1 2 3])
   (testing "different between clj and cljs"
     (is (= (core/as-int "292999988888999999888888")
            #?(:clj nil :cljs 292999988888999999888888)))))
@@ -47,7 +57,12 @@
     "1.23.45"
     "abc"
     ""
-    nil))
+    nil)
+  (are [s] (thrown? #?(:clj AssertionError :cljs js/Error) (core/as-double s))
+    123
+    9.87
+    {:foo "bar"}
+    [1 2 3]))
 
 (deftest as-float-test
   (are [s e] (= (core/as-float s) e)
@@ -60,7 +75,12 @@
   (are [s] (nil? (core/as-float s))
     "abc"
     ""
-    nil))
+    nil)
+  (are [s] (thrown? #?(:clj AssertionError :cljs js/Error) (core/as-float s))
+    123
+    9.87
+    {:foo "bar"}
+    [1 2 3]))
 
 (deftest as-rational-test
   (are [s e] (= (core/as-rational s) e)
@@ -79,7 +99,12 @@
     ""
     nil
     "2/0"
-    "-2/0"))
+    "-2/0")
+  (are [s] (thrown? #?(:clj AssertionError :cljs js/Error) (core/as-rational s))
+    #?(:clj 1/2 :cljs 0.5)
+    1.5
+    {:foo "bar"}
+    [1 2 3]))
 
 (deftest as-boolean-test
   (are [s] (true? (core/as-boolean s))
@@ -95,7 +120,13 @@
   (are [s] (nil? (core/as-boolean s))
     "0"
     ""
-    nil))
+    nil)
+  (are [s] (thrown? #?(:clj AssertionError :cljs js/Error) (core/as-boolean s))
+    true
+    false
+    123
+    {:foo "bar"}
+    [1 2 3]))
 
 (deftest is-uuid?-test
   (is (not (core/is-uuid? 1)))
