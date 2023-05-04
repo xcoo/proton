@@ -9,23 +9,12 @@
   (-> s
       (string/replace #"," "")))
 
-(defn- string?! [s]
-  (cond
-    (nil? s)
-    false
-
-    (string? s)
-    true
-
-    :else
-    (throw (#?(:clj (IllegalArgumentException. "An argument should be string")
-               :cljs (js/Error. "An argument should be string"))))))
-
 (defn as-long
   "Returns a new long number initialized to the value represented by s.
   as-int returns nil if s is an illegal string or nil."
   [s]
-  (when (string?! s)
+  {:pre [(or (nil? s) (string? s))]}
+  (when-not (nil? s)
     (let [[n _ _] (re-matches #"(|-|\+)(\d+)" (sanitize-number-string s))]
       (when-not (nil? n)
         (try
@@ -40,7 +29,8 @@
   as-int returns nil if s is an illegal string or nil. as-long returns a
   long number if s is out of int range."
   [s]
-  (when (string?! s)
+  {:pre [(or (nil? s) (string? s))]}
+  (when-not (nil? s)
     (let [[n _ _] (re-matches #"(|-|\+)(\d+)" (sanitize-number-string s))]
       (when-not (nil? n)
         (try
@@ -56,7 +46,8 @@
   "Returns a new double number initialized to the value represented by s.
   as-double returns nil if s is an illegal string or nil."
   [s]
-  (when (string?! s)
+  {:pre [(or (nil? s) (string? s))]}
+  (when-not (nil? s)
     (when-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" (sanitize-number-string s))]
       (try
         #?(:clj (Double/parseDouble n)
@@ -70,7 +61,8 @@
   as-float returns nil if s is an illegal string or nil. as-float returns a
   double number if s is out of float range."
   [s]
-  (when (string?! s)
+  {:pre [(or (nil? s) (string? s))]}
+  (when-not (nil? s)
     (when-let [[n] (re-matches #"[\-\+]?\d+(\.\d+)?([eE][\-\+]?\d+)?" (sanitize-number-string s))]
       (try
         #?(:clj (let [r (Float/parseFloat n)]
@@ -87,7 +79,8 @@
   as \"1\", \"1/2\", and \"-1/2\". as-rational returns nil if s is an illegal
   string, nil, or division by zero."
   [s]
-  (when (string?! s)
+  {:pre [(or (nil? s) (string? s))]}
+  (when-not (nil? s)
     (when-let [[_ n _ d] (re-matches #"([\-\+]?\d+)(/(\d+))?" (sanitize-number-string s))]
       (try
         (let [numerator ^long (as-long n)
@@ -103,7 +96,8 @@
   "Returns a boolean represented by s. as-boolean returns true if s is \"true\"
   or \"yes\", ignoring case, false if \"false\" or \"no\", and nil otherwise."
   [s]
-  (when (string?! s)
+  {:pre [(or (nil? s) (string? s))]}
+  (when-not (nil? s)
     (condp re-matches s
       #"(?i)(true|yes)" true
       #"(?i)(false|no)" false
