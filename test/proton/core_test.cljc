@@ -161,4 +161,6 @@
   (is (= (core/deep-merge {:foo {:bar 1}} {:foo {:baz 2}})
          {:foo {:bar 1 :baz 2}}))
   (is (= (core/deep-merge {:foo {:bar 1}} {:baz 2})
-         {:foo {:bar 1} :baz 2})))
+         {:foo {:bar 1} :baz 2}))
+  (is (= (core/deep-merge {:foo 1} {:foo {:baz 2}})
+         {:foo {:baz 2}})))
