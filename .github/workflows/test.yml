@@ -7,11 +7,13 @@ jobs:
     strategy:
       matrix:
         os:
-          - Ubuntu-18.04
           - Ubuntu-20.04
+          - Ubuntu-22.04
         openjdk:
           - 8
           - 11
+          - 17
+          - 21
         clojure:
           - 1.8
           - 1.9
@@ -20,10 +22,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Openjdk
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: corretto
           java-version: ${{ matrix.openjdk }}
@@ -37,9 +39,9 @@ jobs:
           javac -J-Xmx32m -version
 
       - name: Install leiningen
-        uses: DeLaGuardo/setup-clojure@5.0
+        uses: DeLaGuardo/setup-clojure@12.5
         with:
-          lein: 2.9.1
+          lein: 2.11.2
 
       - name: Show leiningen version
         run: |
