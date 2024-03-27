@@ -7,11 +7,13 @@ jobs:
     strategy:
       matrix:
         os:
-          - Ubuntu-18.04
           - Ubuntu-20.04
+          - Ubuntu-22.04
         openjdk:
           - 8
           - 11
+          - 17
+          - 21
         clojure:
           - 1.8
           - 1.9
