@@ -198,7 +198,8 @@
   "Recursively merges maps."
   [& maps]
   (letfn [(m [& xs]
-            (if (every? #(and (map? %) (not (record? %))) xs)
-              (apply merge-with m xs)
-              (last xs)))]
+            (let [xs (remove nil? xs)]
+              (if (every? #(and (map? %) (not (record? %))) xs)
+                (apply merge-with m xs)
+                (last xs))))]
     (reduce m maps)))

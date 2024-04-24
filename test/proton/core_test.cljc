@@ -158,6 +158,14 @@
     nil 3 7))
 
 (deftest deep-merge-test
+  (is (= (core/deep-merge {:foo 1} nil)
+         {:foo 1}))
+  (is (= (core/deep-merge nil {:foo 1})
+         {:foo 1}))
+  (is (= (core/deep-merge {:foo 1} {:foo nil})
+         {:foo 1}))
+  (is (= (core/deep-merge {:foo nil} {:foo 1})
+         {:foo 1}))
   (is (= (core/deep-merge {:foo {:bar 1}} {:foo {:baz 2}})
          {:foo {:bar 1 :baz 2}}))
   (is (= (core/deep-merge {:foo {:bar 1}} {:baz 2})
