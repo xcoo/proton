@@ -7,18 +7,19 @@ jobs:
     strategy:
       matrix:
         os:
-          - Ubuntu-20.04
           - Ubuntu-22.04
         openjdk:
           - 8
           - 11
           - 17
           - 21
+          - 25
         clojure:
           - 1.8
           - 1.9
           - 1.10
           - 1.11
+          - 1.12
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
